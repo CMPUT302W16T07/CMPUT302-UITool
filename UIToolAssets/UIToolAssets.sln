@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{8C30D775-B0C3-DAF4-98EF-A7CBF796554B}") = "UIToolAssets", "Assembly-CSharp.csproj", "{3905B287-F7BC-AC3D-5657-64693352B330}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3905B287-F7BC-AC3D-5657-64693352B330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3905B287-F7BC-AC3D-5657-64693352B330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3905B287-F7BC-AC3D-5657-64693352B330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3905B287-F7BC-AC3D-5657-64693352B330}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
