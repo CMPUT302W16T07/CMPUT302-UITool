@@ -94,6 +94,7 @@ public class TerrainPiece : MonoBehaviour {
 		
 	// Use this for initialization
 	void Start () {
+		Update ();
 		Test ();
 	
 	}
