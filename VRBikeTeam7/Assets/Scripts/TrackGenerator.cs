@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//There are no comments. It was hard to write, it should be hard to read. 
 public class TrackGenerator : MonoBehaviour {
 
 	public GameObject roadSection;
