@@ -6,6 +6,7 @@ using System.Collections;
 public class TrackGenerator : MonoBehaviour {
 
 	public GameObject roadSection;
+	public GameObject finishLine;
 	static float trackLength;
 	static int valleyPeak;
 	static float unit;
@@ -31,6 +32,7 @@ public class TrackGenerator : MonoBehaviour {
 	static float previous_peak_y = 0;
 
 	int i = 0;
+	int finishPoint;
 
 	// Use this for initialization
 	void Start () {
@@ -99,23 +101,18 @@ public class TrackGenerator : MonoBehaviour {
 		previous_peak_y = peak_y_translation / 2;
 		previous_peak_z = peak_z_translation / 2;
 
-		/*
-		for (int i = 10; i < trackLength; i += 10) {
-			Instantiate (roadSection, new Vector3 (transform.position.x, transform.position.y, transform.position.z + i), transform.rotation);
-		}
-		*/
-
 		while (i < trackLength) {
 			for (int v = 0; v < valley; v++) {
 				if (i == trackLength) {
+					finishPoint = 0;
 					break;
 				}
-					Instantiate (roadSection, new Vector3 (0, previous_valley_y, previous_valley_z), Quaternion.Euler (360 - valleyAngle, 0, 0));
+				Instantiate (roadSection, new Vector3 (0, previous_valley_y, previous_valley_z), Quaternion.Euler (360 - valleyAngle, 0, 0));
 			
-					previous_valley_y += valley_y_translation;
-					previous_valley_z += valley_z_translation;
+				previous_valley_y += valley_y_translation;
+				previous_valley_z += valley_z_translation;
 
-					i++;
+				i++;
 
 			}
 
@@ -124,20 +121,30 @@ public class TrackGenerator : MonoBehaviour {
 			
 			for (int p = 0; p < peak; p++) {
 				if (i == trackLength) {
+					finishPoint = 1;
 					break;
 				}
-					Instantiate (roadSection, new Vector3 (0, previous_peak_y, previous_peak_z), Quaternion.Euler (360 - peakAngle, 0, 0));
+				Instantiate (roadSection, new Vector3 (0, previous_peak_y, previous_peak_z), Quaternion.Euler (360 - peakAngle, 0, 0));
 
-					previous_peak_y += peak_y_translation;
-					previous_peak_z += peak_z_translation;
+				previous_peak_y += peak_y_translation;
+				previous_peak_z += peak_z_translation;
 
-					i++;
+				i++;
 
 			}
 
 			previous_valley_y = (previous_peak_y - (peak_y_translation / 2)) + (valley_y_translation / 2);
 			previous_valley_z = (previous_peak_z - (peak_z_translation / 2)) + (valley_z_translation / 2);
 		}
+		/*
+		if (finishPoint == 0) {
+			Instantiate (finishLine, new Vector3 (0, previous_valley_y - (valley_y_translation / 2), previous_valley_z - (peak_z_translation / 2)), transform.rotation);
+		} else if (finishPoint == 1) {
+			Instantiate (finishLine, new Vector3 (0, previous_peak_y - (peak_y_translation / 2), previous_peak_z - (valley_z_translation / 2)), transform.rotation);
+		} else {
+			Instantiate (finishLine, new Vector3 (0, previous_peak_y - (peak_y_translation / 2), previous_peak_z - (valley_z_translation / 2)), transform.rotation);
+		}
+		*/
 	}
 }
 
