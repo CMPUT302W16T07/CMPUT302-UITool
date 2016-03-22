@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public static class ExerciseSettings {
 
-	// public data holding class
 	// How-to-use:
 	// Before you take out any data, be sure to check the bools
 	// 'durationIsDistance' and 'trainingIsInterval' BEFORE

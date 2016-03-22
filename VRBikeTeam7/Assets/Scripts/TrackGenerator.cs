@@ -1,150 +1,170 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-//There are no comments. It was hard to write, it should be hard to read. 
 public class TrackGenerator : MonoBehaviour {
 
 	public GameObject roadSection;
 	public GameObject finishLine;
+
 	static float trackLength;
-	static int valleyPeak;
-	static float unit;
-	static float valley;
-	static float peak;
+	static float unitDistance;
 
-	static float valleyAngle;
-	static float valleyRad;
+	const int trackPlaneLength = 10;
 
-	static float peakAngle;
-	static float peakRad;
+	static float baseSectionLength;
+	static float peakSectionLength;
 
-	static float valley_z_translation;
-	static float valley_y_translation;
+	static float minAngle;
+	static float maxAngle;
 
-	static float peak_z_translation;
-	static float peak_y_translation;
-
-	static float previous_valley_z = 0;
-	static float previous_valley_y = 0;
-
-	static float previous_peak_z = 0;
-	static float previous_peak_y = 0;
-
-	int i = 0;
 	int finishPoint;
 
 	// Use this for initialization
 	void Start () {
 
+		// set trackLength
 		if (ExerciseSettings.durationIsDistance == true) {
-			trackLength = ExerciseSettings.distance * 100;
+			trackLength = ExerciseSettings.distance * 1000;
 			Debug.Log ("The track length is " + trackLength);
-		}else{
-			trackLength = (ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 100;
+		} else {
+			trackLength = (ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000;
 			Debug.Log ("The track length is " + trackLength);
 		}
 
-		valleyAngle = (ExerciseSettings.minResistance - 1)/4;
-		valleyRad = (valleyAngle * Mathf.Deg2Rad);
-		peakAngle = ExerciseSettings.maxResistance/4;
-		peakRad = (peakAngle * Mathf.Deg2Rad);
-
-		Debug.Log ("The minimum angle is " + valleyAngle);
-		Debug.Log ("The maximum angle is " + peakAngle);
+		// set min/max geometry
+		minAngle = (ExerciseSettings.minResistance - 1)/4;
+		maxAngle = ExerciseSettings.maxResistance/4;
 
 		if (ExerciseSettings.trainingIsInterval == true) {
-			unit = ExerciseSettings.unitDistance;
-			valleyPeak = ExerciseSettings.basePeakDropdownValue; 
-			if (valleyPeak == 0) {
-				valley = 3 * unit * 100;
-				peak = 1 * unit * 100;
-				Debug.Log ("The ratio is " + valley + ":" + peak);
-			} else if (valleyPeak == 1) {
-				valley = 2 * unit * 100;
-				peak = 1 * unit * 100;
-				Debug.Log ("The ratio is " + valley + ":" + peak);
-			} else if (valleyPeak == 2) {
-				valley = 1 * unit * 100;
-				peak = 1 * unit * 100;
-				Debug.Log ("The ratio is " + valley + ":" + peak);
-			} else if (valleyPeak == 3) {
-				valley = 1 * unit * 100;
-				peak = 2 * unit * 100;
-				Debug.Log ("The ratio is " + valley + ":" + peak);
-			} else if (valleyPeak == 4) {
-				valley = 1 * unit * 100;
-				peak = 3 * unit * 100;
-				Debug.Log ("The ratio is " + valley + ":" + peak);
-			}
-		}
-
-		if (valleyAngle == 0) {
-			valley_y_translation = 0;
-			valley_z_translation = 10;
+			handleIntervalTrack ();
 		} else {
-			valley_y_translation = (Mathf.Sin (valleyRad) * 10);
-			valley_z_translation = (valley_y_translation) / (Mathf.Tan (valleyRad));
+			handleProgressiveTrack ();
+		}
+			
+	}
+		
+	void handleIntervalTrack () {
+
+		// determine ratio
+		int baseRatioTerm;
+		int peakRatioTerm;
+		unitDistance = ExerciseSettings.unitDistance;
+		switch (ExerciseSettings.basePeakDropdownValue) {
+		case 0:
+			baseRatioTerm = 3;
+			peakRatioTerm = 1;
+			break;
+		case 1:
+			baseRatioTerm = 2;
+			peakRatioTerm = 1;
+			break;
+		case 2:
+			baseRatioTerm = 1;
+			peakRatioTerm = 1;
+			break;
+		case 3:
+			baseRatioTerm = 1;
+			peakRatioTerm = 2;
+			break;
+		case 4:
+			baseRatioTerm = 1;
+			peakRatioTerm = 3;
+			break;
+		default:	
+			baseRatioTerm = 0;
+			peakRatioTerm = 0;
+			break;
 		}
 
-		previous_valley_y = valley_y_translation / 2;
-		previous_valley_z = valley_z_translation / 2;
-	
-		if (peakAngle == 0) {
-			peak_y_translation = 0;
-			peak_z_translation = 10;
-		} else {
-			peak_y_translation = (Mathf.Sin (peakRad) * 10);
-			peak_z_translation = (peak_y_translation) / (Mathf.Tan (peakRad));
-		}
+		baseSectionLength = unitDistance * baseRatioTerm * 1000;
+		peakSectionLength = unitDistance * peakRatioTerm * 1000;
 
-		previous_peak_y = peak_y_translation / 2;
-		previous_peak_z = peak_z_translation / 2;
+		// create track 
+		int trackIndex = 0;
+		while (trackIndex < trackLength) {
 
-		while (i < trackLength) {
-			for (int v = 0; v < valley; v++) {
-				if (i == trackLength) {
+			// build base section
+			for (int b = 0; b < baseSectionLength; b += trackPlaneLength) {
+				if (trackIndex == trackLength) {
 					finishPoint = 0;
 					break;
 				}
-				Instantiate (roadSection, new Vector3 (0, previous_valley_y, previous_valley_z), Quaternion.Euler (360 - valleyAngle, 0, 0));
-			
-				previous_valley_y += valley_y_translation;
-				previous_valley_z += valley_z_translation;
 
-				i++;
+				addPlaneWithAngle (minAngle);
 
+				trackIndex += trackPlaneLength;
 			}
 
-			previous_peak_y = (previous_valley_y - (valley_y_translation / 2)) + (peak_y_translation / 2);
-			previous_peak_z = (previous_valley_z - (valley_z_translation / 2)) + (peak_z_translation / 2);
-			
-			for (int p = 0; p < peak; p++) {
-				if (i == trackLength) {
+			// build peak section
+			for (int p = 0; p < peakSectionLength; p += trackPlaneLength) {
+				if (trackIndex == trackLength) {
 					finishPoint = 1;
 					break;
 				}
-				Instantiate (roadSection, new Vector3 (0, previous_peak_y, previous_peak_z), Quaternion.Euler (360 - peakAngle, 0, 0));
+				addPlaneWithAngle (maxAngle);
 
-				previous_peak_y += peak_y_translation;
-				previous_peak_z += peak_z_translation;
-
-				i++;
-
+				trackIndex += trackPlaneLength;
 			}
+		}
+	}
 
-			previous_valley_y = (previous_peak_y - (peak_y_translation / 2)) + (valley_y_translation / 2);
-			previous_valley_z = (previous_peak_z - (peak_z_translation / 2)) + (valley_z_translation / 2);
+	void handleProgressiveTrack () {
+
+		float climbingLength = (ExerciseSettings.climbingPercent * trackLength) / 100;
+		float peakLength = trackLength - climbingLength;
+
+		int numberOfClimbingSections = (int)climbingLength / 10;
+		int numberOfPeakSections = (int)peakLength / 10;
+
+		float angleIncrement = (maxAngle - minAngle) / numberOfClimbingSections;
+		float currentAngle = minAngle;
+
+		// build climbing sections
+		for (int section = 0; section < numberOfClimbingSections; section++) {
+			currentAngle += angleIncrement;
+			addPlaneWithAngle (currentAngle);
 		}
-		/*
-		if (finishPoint == 0) {
-			Instantiate (finishLine, new Vector3 (0, previous_valley_y - (valley_y_translation / 2), previous_valley_z - (peak_z_translation / 2)), transform.rotation);
-		} else if (finishPoint == 1) {
-			Instantiate (finishLine, new Vector3 (0, previous_peak_y - (peak_y_translation / 2), previous_peak_z - (valley_z_translation / 2)), transform.rotation);
+
+		// build peak sections
+		for (int section = 0; section < numberOfPeakSections; section++) {
+			addPlaneWithAngle (maxAngle);
+		}
+	}
+
+	float previousAngle;
+	float previous_y_translation;
+	float previous_z_translation;
+
+	float current_y_position;
+	float current_z_position;
+
+	void addPlaneWithAngle (float angle) {
+
+		float y_translation;
+		float z_translation;
+
+		if (angle == 0) {
+			y_translation = 0;
+			z_translation = 10;
 		} else {
-			Instantiate (finishLine, new Vector3 (0, previous_peak_y - (peak_y_translation / 2), previous_peak_z - (valley_z_translation / 2)), transform.rotation);
+			float radians = (angle * Mathf.Deg2Rad);
+			y_translation = (Mathf.Sin (radians) * 10);
+			z_translation = (y_translation) / (Mathf.Tan (radians));
 		}
-		*/
+
+		// connect planes of difffering angles
+		if (angle != previousAngle) {
+			current_y_position = (current_y_position - (previous_y_translation / 2)) + (y_translation / 2);
+			current_z_position = (current_z_position - (previous_z_translation / 2)) + (z_translation / 2);
+		}
+			
+		Instantiate (roadSection, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
+
+		current_y_position += y_translation;
+		current_z_position += z_translation;
+
+		previous_y_translation = y_translation;
+		previous_z_translation = z_translation;
+		previousAngle = angle;
 	}
 }
-
