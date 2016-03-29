@@ -35,7 +35,7 @@ public class LengthCanvasScript : MonoBehaviour {
 			targetSpeedInputField.interactable = false;
 
 			if (float.TryParse (distanceInputField.text, out distance)) {
-				if (distance > 1) {
+				if (distance >= 1) {
 					canvasValid = true;
 				} else {
 					canvasValid = false;
@@ -51,7 +51,7 @@ public class LengthCanvasScript : MonoBehaviour {
 
 			if (float.TryParse (timeInputField.text, out time)) {
 				if (float.TryParse (targetSpeedInputField.text, out targetSpeed)) {
-					if (time > 1 && targetSpeed > 1) {
+					if (time >= 1 && targetSpeed >= 1) {
 						canvasValid = true;
 					} else {
 						canvasValid = false;

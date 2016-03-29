@@ -142,13 +142,13 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ANT_NET">
- <HintPath>/Users/David/Downloads/CMPUT302-UITool-master/VRBikeTeam7/Assets/Ant/Plugins/x86_64/ANT_NET.dll</HintPath>
+ <HintPath>/Users/David/Desktop/CMPUT302-UITool/VRBikeTeam7/Assets/Ant/Plugins/x86_64/ANT_NET.dll</HintPath>
  </Reference>
  <Reference Include="EasyRoads3D">
- <HintPath>/Users/David/Downloads/CMPUT302-UITool-master/VRBikeTeam7/Assets/EasyRoads3D Free/lib/EasyRoads3D.dll</HintPath>
+ <HintPath>/Users/David/Desktop/CMPUT302-UITool/VRBikeTeam7/Assets/EasyRoads3D Free/lib/EasyRoads3D.dll</HintPath>
  </Reference>
  <Reference Include="XSensUnityLibrary">
- <HintPath>/Users/David/Downloads/CMPUT302-UITool-master/VRBikeTeam7/Assets/Xsens/Plugins/XSensUnityLibrary.dll</HintPath>
+ <HintPath>/Users/David/Desktop/CMPUT302-UITool/VRBikeTeam7/Assets/Xsens/Plugins/XSensUnityLibrary.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
