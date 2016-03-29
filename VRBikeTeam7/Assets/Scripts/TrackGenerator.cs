@@ -40,6 +40,7 @@ public class TrackGenerator : MonoBehaviour {
 		} else {
 			handleProgressiveTrack ();
 		}
+		Instantiate (finishLine, new Vector3 (0, current_y_position - (previous_y_translation/2), (current_z_position - (previous_z_translation/2) + 5)), Quaternion.Euler (0, 0, 0));
 			
 	}
 		
