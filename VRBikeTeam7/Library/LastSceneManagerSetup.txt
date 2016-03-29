@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/UITool.unity
+- path: Assets/ExampleScene.unity
   isLoaded: 1
   isActive: 1
