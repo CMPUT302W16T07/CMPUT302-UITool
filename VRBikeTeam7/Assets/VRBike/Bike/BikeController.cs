@@ -32,7 +32,7 @@ public class BikeController : MonoBehaviour {
     /// <summary>
     /// The time the game is started at, which allows us to calculate the duration of the game.
     /// </summary>
-    private DateTime _refTime;
+    public DateTime _refTime;
     
     /// <summary>
     /// The time the game is started at, which allows us to calculate the duration of the game.
@@ -45,7 +45,7 @@ public class BikeController : MonoBehaviour {
     /// <summary>
     /// Whether or not the timer has started for the game yet.
     /// </summary>
-    private bool _timerStarted = false;
+    public bool _timerStarted = false;
 
     /// <summary>
     /// Whether or not the timer has started for the game yet.
@@ -227,8 +227,6 @@ public class BikeController : MonoBehaviour {
         (new CollisionDisabler(characterController, terrainCollider)).Start();
 
         // Start the timer.
-        this._refTime = DateTime.Now;
-        this._timerStarted = true;
     }
 
     /// <summary>

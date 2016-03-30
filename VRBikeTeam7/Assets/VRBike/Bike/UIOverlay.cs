@@ -10,9 +10,15 @@ public class UIOverlay : MonoBehaviour
 {
 	private static BikeController bikeController;
 
+	public GameObject startCollider;
+
+	public GameObject finishCollider;
+
+	
 	public static void SetBikeController(BikeController bikeController)
 	{
 		UIOverlay.bikeController = bikeController;
+
 	}
 
     private StandardUI stdUI;
@@ -30,38 +36,49 @@ public class UIOverlay : MonoBehaviour
 
 	void Update()
 	{
-        if (this.stdUI == null)
-            return;
+		GameObject startCollider = GameObject.FindGameObjectWithTag("Start");
+		GameObject finishCollider = GameObject.FindGameObjectWithTag("Finish");
 
-        // Timer
-        if (bikeController.TimerStarted)
-        {
-            TimeSpan currentTime;
-            currentTime = DateTime.Now - bikeController.ReferenceTime;
+		if (startCollider == null && finishCollider != null) {
+			if (bikeController._timerStarted == false) {
+				bikeController._timerStarted = true;
+				bikeController._refTime = DateTime.Now;
+			}
 
-            this.stdUI.TimeText.text = String.Format("{3:#0}:{2:00}:{1:00}.{0:00}",
-                                                   Mathf.Floor((float)currentTime.Milliseconds / 10),
-                                                   Mathf.Floor((float)currentTime.Seconds),
-                                                   Mathf.Floor((float)currentTime.Minutes),
-                                                   Mathf.Floor((float)currentTime.TotalHours));
-        }
-        else
-        {
-            this.stdUI.TimeText.text = "--:--:--.--";
-        }
+			if (this.stdUI == null)
+				return;
 
-        // Distance (convert from m to km)
-        String distanceText = String.Format("{0:#0.0}", bikeController.DistanceTravelled / 1000f);
-        this.stdUI.DistText.text = distanceText;
+			// Timer
+			if (bikeController.TimerStarted) {
+				
+				TimeSpan currentTime;
+				currentTime = DateTime.Now - bikeController.ReferenceTime;
 
-        // Velocity (convert from m/s to km/h)
-        this.stdUI.VelText.text = String.Format("{0:#0.0}", bikeController.bikePhysics.Velocity * 3.6f);
+				this.stdUI.TimeText.text = String.Format ("{3:#0}:{2:00}:{1:00}.{0:00}",
+					Mathf.Floor ((float)currentTime.Milliseconds / 10),
+					Mathf.Floor ((float)currentTime.Seconds),
+					Mathf.Floor ((float)currentTime.Minutes),
+					Mathf.Floor ((float)currentTime.TotalHours));
+				
+			} else {
+				
+				this.stdUI.TimeText.text = "--:--:--.--";
 
-        // Power (watts)
-        this.stdUI.PWRText.text = String.Format ("{0:#0.0}", bikeController.bikeData.BikePWR);
+			}
 
-        // No Heart Rate in this version
-        this.stdUI.HRText.text = "--";
-    }
+			// Distance (convert from m to km)
+			String distanceText = String.Format ("{0:#0.0}", bikeController.DistanceTravelled / 1000f);
+			this.stdUI.DistText.text = distanceText;
+
+			// Velocity (convert from m/s to km/h)
+			this.stdUI.VelText.text = String.Format ("{0:#0.0}", bikeController.bikePhysics.Velocity * 3.6f);
+
+			// Power (watts)
+			this.stdUI.PWRText.text = String.Format ("{0:#0.0}", bikeController.bikeData.BikePWR);
+
+			// No Heart Rate in this version
+			this.stdUI.HRText.text = "--";
+		}
+	}
 	
 }

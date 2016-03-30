@@ -104,6 +104,7 @@
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\ProgressiveCanvasScript.cs" />
      <Compile Include="Assets\Scripts\ResistanceCanvasScript.cs" />
+     <Compile Include="Assets\Scripts\TimerController.cs" />
      <Compile Include="Assets\Scripts\TrackGenerator.cs" />
      <Compile Include="Assets\Scripts\Vec2I.cs" />
      <Compile Include="Assets\VRBike\Bike\BikeController.cs" />
