@@ -10,6 +10,7 @@ public class LengthCanvasScript : MonoBehaviour {
 	public InputField distanceInputField;
 	public InputField timeInputField;
 	public InputField targetSpeedInputField;
+	public InputField calculatedDistanceInputField;
 
 	public bool durationIsDistance;
 
@@ -33,6 +34,7 @@ public class LengthCanvasScript : MonoBehaviour {
 			distanceInputField.interactable = true;
 			timeInputField.interactable = false;
 			targetSpeedInputField.interactable = false;
+			calculatedDistanceInputField.text = "";
 
 			if (float.TryParse (distanceInputField.text, out distance)) {
 				if (distance >= 1) {
@@ -48,6 +50,9 @@ public class LengthCanvasScript : MonoBehaviour {
 			distanceInputField.interactable = false;
 			timeInputField.interactable = true;
 			targetSpeedInputField.interactable = true;
+
+			float trackLength = (ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed;
+			calculatedDistanceInputField.text = trackLength.ToString ("n1") + " km";
 
 			if (float.TryParse (timeInputField.text, out time)) {
 				if (float.TryParse (targetSpeedInputField.text, out targetSpeed)) {

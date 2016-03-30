@@ -5,8 +5,6 @@ Project("{98763B6C-8AFC-FCAD-18D5-09C45516F7EB}") = "VRBikeTeam7", "Assembly-CSh
 EndProject
 Project("{98763B6C-8AFC-FCAD-18D5-09C45516F7EB}") = "VRBikeTeam7", "Assembly-CSharp-Editor.csproj", "{5CB92273-08C0-2F4A-EA56-649A01259146}"
 EndProject
-Project("{98763B6C-8AFC-FCAD-18D5-09C45516F7EB}") = "VRBikeTeam7", "Assembly-UnityScript-Editor.unityproj", "{54DF0209-57D1-AA23-1F82-262035DEB753}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +19,6 @@ Global
 		{5CB92273-08C0-2F4A-EA56-649A01259146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CB92273-08C0-2F4A-EA56-649A01259146}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CB92273-08C0-2F4A-EA56-649A01259146}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54DF0209-57D1-AA23-1F82-262035DEB753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54DF0209-57D1-AA23-1F82-262035DEB753}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54DF0209-57D1-AA23-1F82-262035DEB753}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54DF0209-57D1-AA23-1F82-262035DEB753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
