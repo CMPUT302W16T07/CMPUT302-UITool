@@ -102,6 +102,7 @@
      <Compile Include="Assets\Scripts\LevelCanvasScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvasScript.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\PaceTimer.cs" />
      <Compile Include="Assets\Scripts\ProgressiveCanvasScript.cs" />
      <Compile Include="Assets\Scripts\ResistanceCanvasScript.cs" />
      <Compile Include="Assets\Scripts\SessionCompleteCanvasScript.cs" />

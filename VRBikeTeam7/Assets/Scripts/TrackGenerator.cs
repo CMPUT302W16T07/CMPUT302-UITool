@@ -27,7 +27,11 @@ public class TrackGenerator : MonoBehaviour {
 			trackLength = ExerciseSettings.distance * 1000;
 			Debug.Log ("The track length is " + trackLength);
 		} else {
-			trackLength = (ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000;
+			if ((((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10) >= 5) {
+				trackLength = ((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) + (10 - (((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10));
+			} else {
+				trackLength = ((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) - (((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10);
+			}
 			Debug.Log ("The track length is " + trackLength);
 		}
 

@@ -225,8 +225,6 @@ public class BikeController : MonoBehaviour {
         CharacterController characterController = this.GetComponent<CharacterController>();
         TerrainCollider terrainCollider = CollisionDisabler.GetTerrainColliderForActiveTerrain();
         (new CollisionDisabler(characterController, terrainCollider)).Start();
-
-        // Start the timer.
     }
 
     /// <summary>
