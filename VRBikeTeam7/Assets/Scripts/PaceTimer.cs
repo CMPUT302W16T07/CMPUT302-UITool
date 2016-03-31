@@ -12,6 +12,7 @@ public class PaceTimer : MonoBehaviour {
 	static float targetPaceIncrement;
 	static float targetPace = 0f;
 	static float actualPace;
+	int checkPointCounter = 100;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,7 @@ public class PaceTimer : MonoBehaviour {
 		bikeController = UIOverlay.bikeController;
 	
 		paceDisplay = gameObject.GetComponent<TextMesh> ();
-		targetPaceIncrement = (trackLength / (ExerciseSettings.targetSpeed * 1000)) * 3600;
+		targetPaceIncrement = ((trackLength / (ExerciseSettings.targetSpeed * 1000)) * 60 * 60)/100 ;
 
 	}
 	
@@ -41,8 +42,9 @@ public class PaceTimer : MonoBehaviour {
 			TimeSpan currentTime;
 			currentTime = DateTime.Now - bikeController.ReferenceTime;
 
-			if (bikeController.DistanceTravelled % 0.1 == 0 && trackLength >= 100) {
+			if (bikeController.DistanceTravelled >= checkPointCounter && trackLength >= 100) {
 				targetPace += targetPaceIncrement;
+				checkPointCounter += 100;
 
 				if (targetPace >= 0f){
 					paceDisplay.text = "+" + targetPace;
