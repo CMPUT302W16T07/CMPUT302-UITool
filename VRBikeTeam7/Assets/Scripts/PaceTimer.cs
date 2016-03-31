@@ -41,7 +41,7 @@ public class PaceTimer : MonoBehaviour {
 			TimeSpan currentTime;
 			currentTime = DateTime.Now - bikeController.ReferenceTime;
 
-			if (bikeController.DistanceTravelled % 10 == 0 && bikeController.DistanceTravelled >= 10) {
+			if (bikeController.DistanceTravelled % 0.1f == 0 && trackLength >= 100) {
 				targetPace += targetPaceIncrement;
 
 				if (actualPace >= 0f){

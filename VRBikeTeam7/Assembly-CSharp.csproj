@@ -56,12 +56,6 @@
      <Compile Include="Assets\Ant\DataPages\PowerOnlyDataPage.cs" />
      <Compile Include="Assets\Ant\DataPages\ProductInfoDataPage.cs" />
      <Compile Include="Assets\Ant\DataPages\WheelTorqueDataPage.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\EasyRoads3DTerrainID.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\MarkerScript.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\RoadObjectScript.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\SideObjectInit.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\SurfaceScript.cs" />
-     <Compile Include="Assets\EasyRoads3D Free\scripts\sideObjectScript.cs" />
      <Compile Include="Assets\LibNoise\Generator\Billow.cs" />
      <Compile Include="Assets\LibNoise\Generator\Checker.cs" />
      <Compile Include="Assets\LibNoise\Generator\Const.cs" />
@@ -125,19 +119,10 @@
      <Compile Include="Assets\VRBike\Utils\ThreadHelper.cs" />
      <Compile Include="Assets\Xsens\XSensGyro.cs" />
      <Compile Include="Assets\Xsens\XSensGyroBridge.cs" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Surface.shader" />
      <None Include="Assets\Ant\Plugins\x86_64\ANT_NET.xml" />
-     <None Include="Assets\EasyRoads3D Free\Release Notes.txt" />
      <None Include="Assets\LibNoise\COPYING.txt" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\EasyRoads3D Marker.shader" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Surface_Alpha.shader" />
      <None Include="Assets\LibNoise\COPYING.LESSER.txt" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\surfaceAlpha.shader" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Normal-Diffuse.shader" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\Surface.shader" />
      <None Include="Assets\Ant\Plugins\x86\ANT_NET.xml" />
-     <None Include="Assets\EasyRoads3D Free\_readme.txt" />
-     <None Include="Assets\EasyRoads3D Free\Shaders\EasyRoads3D-Road-Edit-Mode.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -146,9 +131,6 @@
  </Reference>
  <Reference Include="ANT_NET">
  <HintPath>C:/Users/Rishi Barnwal/Desktop/Rishi's Stuff/Work/CMPUT 302/CMPUT302-UITool/VRBikeTeam7/Assets/Ant/Plugins/x86_64/ANT_NET.dll</HintPath>
- </Reference>
- <Reference Include="EasyRoads3D">
- <HintPath>C:/Users/Rishi Barnwal/Desktop/Rishi's Stuff/Work/CMPUT 302/CMPUT302-UITool/VRBikeTeam7/Assets/EasyRoads3D Free/lib/EasyRoads3D.dll</HintPath>
  </Reference>
  <Reference Include="XSensUnityLibrary">
  <HintPath>C:/Users/Rishi Barnwal/Desktop/Rishi's Stuff/Work/CMPUT 302/CMPUT302-UITool/VRBikeTeam7/Assets/Xsens/Plugins/XSensUnityLibrary.dll</HintPath>
