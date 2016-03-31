@@ -8,13 +8,12 @@ using UnityEngine;
 /// </summary>
 public class UIOverlay : MonoBehaviour
 {
-	private static BikeController bikeController;
+	public static BikeController bikeController;
 
 	public GameObject startCollider;
 
 	public GameObject finishCollider;
 
-	
 	public static void SetBikeController(BikeController bikeController)
 	{
 		UIOverlay.bikeController = bikeController;

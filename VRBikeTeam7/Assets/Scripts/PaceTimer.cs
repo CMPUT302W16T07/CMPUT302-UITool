@@ -4,7 +4,9 @@ using System.Collections;
 
 public class PaceTimer : MonoBehaviour {
 
-	private static BikeController bikeController;
+	private GameObject gameBike;
+	private UIOverlay uiOverlay;
+	private BikeController bikeController;
 	public TextMesh paceDisplay;
 	static float trackLength;
 	static float targetPaceIncrement;
@@ -23,8 +25,10 @@ public class PaceTimer : MonoBehaviour {
 			}
 		}
 
-		PaceTimer.bikeController = bikeController;
-
+		gameBike = GameObject.Find ("GameBike");
+		uiOverlay = gameBike.GetComponent<UIOverlay> ();
+		bikeController = UIOverlay.bikeController;
+	
 		paceDisplay = gameObject.GetComponent<TextMesh> ();
 		targetPaceIncrement = (trackLength / (ExerciseSettings.targetSpeed * 1000)) * 3600;
 
@@ -32,22 +36,18 @@ public class PaceTimer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if (bikeController.TimerStarted) {
 			TimeSpan currentTime;
 			currentTime = DateTime.Now - bikeController.ReferenceTime;
 
-			if (bikeController.DistanceTravelled % 100 == 0) {
+			if (bikeController.DistanceTravelled % 100 == 0 && bikeController.DistanceTravelled >= 100) {
 				targetPace += targetPaceIncrement;
-				actualPace = targetPace
-				- (((Mathf.Floor ((float)currentTime.TotalHours)) * 3600)
-				+ ((Mathf.Floor ((float)currentTime.Minutes)) * 60)
-				+ (Mathf.Floor ((float)currentTime.Seconds))
-				+ ((Mathf.Floor ((float)currentTime.Milliseconds)) * 10));
 
 				if (actualPace >= 0f){
-					paceDisplay.text = "+" + actualPace;
+					paceDisplay.text = "+" + targetPace;
 				}else{
-					paceDisplay.text = "" + actualPace;
+					paceDisplay.text = "" + targetPace;
 				}
 				paceDisplay.GetComponent<Renderer> ().enabled = true;
 				StartCoroutine (HideRenderer ());
@@ -59,4 +59,5 @@ public class PaceTimer : MonoBehaviour {
 		yield return new WaitForSeconds (3.0f);
 		paceDisplay.GetComponent<Renderer> ().enabled = false;
 	}
+
 }
