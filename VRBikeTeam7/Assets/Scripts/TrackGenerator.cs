@@ -141,8 +141,8 @@ public class TrackGenerator : MonoBehaviour {
 	float previous_y_translation;
 	float previous_z_translation;
 
-	float current_y_position;
-	float current_z_position;
+	float current_y_position = 0;
+	float current_z_position = 0;
 
 	void addPlaneWithAngle (float angle) {
 
@@ -159,11 +159,12 @@ public class TrackGenerator : MonoBehaviour {
 		}
 
 		// connect planes of difffering angles
-		if (angle != previousAngle) {
+		if (angle != previousAngle || angle == 0) {
 			current_y_position = (current_y_position - (previous_y_translation / 2)) + (y_translation / 2);
 			current_z_position = (current_z_position - (previous_z_translation / 2)) + (z_translation / 2);
 		}
-			
+
+
 		Instantiate (roadSection, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
 
 		current_y_position += y_translation;
