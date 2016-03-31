@@ -36,15 +36,15 @@ public class PaceTimer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		Debug.Log (bikeController.DistanceTravelled);
 		if (bikeController.TimerStarted) {
 			TimeSpan currentTime;
 			currentTime = DateTime.Now - bikeController.ReferenceTime;
 
-			if (bikeController.DistanceTravelled % 0.1f == 0 && trackLength >= 100) {
+			if (bikeController.DistanceTravelled % 0.1 == 0 && trackLength >= 100) {
 				targetPace += targetPaceIncrement;
 
-				if (actualPace >= 0f){
+				if (targetPace >= 0f){
 					paceDisplay.text = "+" + targetPace;
 				}else{
 					paceDisplay.text = "" + targetPace;
