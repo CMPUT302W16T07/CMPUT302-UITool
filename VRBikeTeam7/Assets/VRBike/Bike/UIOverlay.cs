@@ -10,6 +10,8 @@ public class UIOverlay : MonoBehaviour
 {
 	public static BikeController bikeController;
 
+	public TimeSpan currentTime;
+
 	public GameObject startCollider;
 
 	public GameObject finishCollider;
@@ -50,7 +52,7 @@ public class UIOverlay : MonoBehaviour
 			// Timer
 			if (bikeController.TimerStarted) {
 				
-				TimeSpan currentTime;
+
 				currentTime = DateTime.Now - bikeController.ReferenceTime;
 
 				this.stdUI.TimeText.text = String.Format ("{3:#0}:{2:00}:{1:00}.{0:00}",

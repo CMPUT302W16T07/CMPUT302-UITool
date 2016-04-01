@@ -91,16 +91,15 @@
      <Compile Include="Assets\LibNoise\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\LibNoise\Utils.cs" />
      <Compile Include="Assets\Scripts\ExerciseSettings.cs" />
+     <Compile Include="Assets\Scripts\GameTimer.cs" />
      <Compile Include="Assets\Scripts\IntervalCanvasScript.cs" />
      <Compile Include="Assets\Scripts\LengthCanvasScript.cs" />
      <Compile Include="Assets\Scripts\LevelCanvasScript.cs" />
      <Compile Include="Assets\Scripts\MainCanvasScript.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
-     <Compile Include="Assets\Scripts\PaceTimer.cs" />
      <Compile Include="Assets\Scripts\ProgressiveCanvasScript.cs" />
      <Compile Include="Assets\Scripts\ResistanceCanvasScript.cs" />
      <Compile Include="Assets\Scripts\SessionCompleteCanvasScript.cs" />
-     <Compile Include="Assets\Scripts\TimerController.cs" />
      <Compile Include="Assets\Scripts\TrackGenerator.cs" />
      <Compile Include="Assets\Scripts\Vec2I.cs" />
      <Compile Include="Assets\VRBike\Bike\BikeController.cs" />

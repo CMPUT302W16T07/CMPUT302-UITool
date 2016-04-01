@@ -5,6 +5,7 @@ public class TrackGenerator : MonoBehaviour {
 
 	public GameObject roadSection;
 	public GameObject finishLine;
+	public GameObject checkPoint;
 
 	static float trackLength;
 	static float unitDistance;
@@ -50,7 +51,6 @@ public class TrackGenerator : MonoBehaviour {
 	}
 		
 	void handleIntervalTrack () {
-
 		// determine ratio
 		int baseRatioTerm;
 		int peakRatioTerm;
@@ -86,7 +86,7 @@ public class TrackGenerator : MonoBehaviour {
 		peakSectionLength = unitDistance * peakRatioTerm * 1000;
 
 		// create track 
-		int trackIndex = 0;
+		int trackIndex = 10;
 		while (trackIndex < trackLength) {
 
 			// build base section
@@ -96,7 +96,7 @@ public class TrackGenerator : MonoBehaviour {
 					break;
 				}
 
-				addPlaneWithAngle (minAngle);
+				addPlaneWithAngle (minAngle, trackIndex);
 
 				trackIndex += trackPlaneLength;
 			}
@@ -107,7 +107,7 @@ public class TrackGenerator : MonoBehaviour {
 					finishPoint = 1;
 					break;
 				}
-				addPlaneWithAngle (maxAngle);
+				addPlaneWithAngle (maxAngle, trackIndex);
 
 				trackIndex += trackPlaneLength;
 			}
@@ -115,6 +115,8 @@ public class TrackGenerator : MonoBehaviour {
 	}
 
 	void handleProgressiveTrack () {
+
+		int trackIndex = 10;
 
 		float climbingLength = (ExerciseSettings.climbingPercent * trackLength) / 100;
 		float peakLength = trackLength - climbingLength;
@@ -128,12 +130,14 @@ public class TrackGenerator : MonoBehaviour {
 		// build climbing sections
 		for (int section = 0; section < numberOfClimbingSections; section++) {
 			currentAngle += angleIncrement;
-			addPlaneWithAngle (currentAngle);
+			addPlaneWithAngle (currentAngle, trackIndex);
+			trackIndex += trackPlaneLength;
 		}
 
 		// build peak sections
 		for (int section = 0; section < numberOfPeakSections; section++) {
-			addPlaneWithAngle (maxAngle);
+			addPlaneWithAngle (maxAngle, trackIndex);
+			trackIndex += trackPlaneLength;
 		}
 	}
 
@@ -144,7 +148,7 @@ public class TrackGenerator : MonoBehaviour {
 	float current_y_position = 0;
 	float current_z_position = 0;
 
-	void addPlaneWithAngle (float angle) {
+	void addPlaneWithAngle (float angle, int index) {
 
 		float y_translation;
 		float z_translation;
@@ -164,8 +168,11 @@ public class TrackGenerator : MonoBehaviour {
 			current_z_position = (current_z_position - (previous_z_translation / 2)) + (z_translation / 2);
 		}
 
-
-		Instantiate (roadSection, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
+		if (index % 100 == 0 && trackLength > 100 && ExerciseSettings.durationIsDistance == false) {
+			Instantiate (checkPoint, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
+		} else {
+			Instantiate (roadSection, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
+		}
 
 		current_y_position += y_translation;
 		current_z_position += z_translation;
