@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
 public class GameTimer : MonoBehaviour {
 
-	public SessionCompleteCanvasScript sessionCompleteCanvas;
-
 	public TextMesh positivePaceDisplay;
 	public TextMesh negativePaceDisplay;
+	public TextMesh sessionSuccessText;
 
 	static float trackLength;
 	static double targetPaceIncrement;
@@ -36,9 +36,8 @@ public class GameTimer : MonoBehaviour {
 			}
 		}
 	}
-
 	
-	void OnTriggerEnter(Collider collider){
+	void OnTriggerEnter (Collider collider) {
 		//Delete start/finish lines and check points on collision
 		if (collider.tag == "Start" || collider.tag == "Finish" || collider.tag == "CheckPoint") {
 
@@ -85,9 +84,9 @@ public class GameTimer : MonoBehaviour {
 			
 
 
-			}else if (collider.tag == "Finish") {
-				sessionCompleteCanvas.sessionWillFinish ();
-		
+			} else if (collider.tag == "Finish") {
+				sessionSuccessText.GetComponent<Renderer> ().enabled = true;
+				StartCoroutine (RestartTrack (sessionSuccessText));
 			}
 		}
 	}
@@ -96,5 +95,12 @@ public class GameTimer : MonoBehaviour {
 	IEnumerator HideRenderer(TextMesh paceDisplay){
 		yield return new WaitForSeconds (3.0f);
 		paceDisplay.GetComponent<Renderer> ().enabled = false;
+	}
+
+	//call StartCoroutine(HideRenderer()); to hide text mesh after 3 seconds
+	IEnumerator RestartTrack(TextMesh textMesh){
+		yield return new WaitForSeconds (3.0f);
+		textMesh.GetComponent<Renderer> ().enabled = false;
+		SceneManager.LoadScene ("UITool");
 	}
 }
