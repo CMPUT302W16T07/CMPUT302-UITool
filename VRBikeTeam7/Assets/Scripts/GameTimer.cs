@@ -10,11 +10,13 @@ public class GameTimer : MonoBehaviour {
 	public TextMesh negativePaceDisplay;
 
 	static float trackLength;
-	static float targetPaceIncrement;
-	static float targetPace = 0f;
+	static double targetPaceIncrement;
+	static double targetPace = 0;
 	static double actualPace;
 	public static UIOverlay uiOverlay;
-	static int checkPointDistance = 100;
+	static int checkPointDistance = 250;
+
+	private TimeSpan pace;
 
 	void Start () {
 
@@ -26,10 +28,10 @@ public class GameTimer : MonoBehaviour {
 			}
 
 			//Disable script if track isn't long enough.
-			if (trackLength <= 100) {
+			if (trackLength <= checkPointDistance) {
 				GetComponent<GameTimer> ().enabled = false;
 			}else{
-				targetPaceIncrement = ((100/(ExerciseSettings.targetSpeed * 1000)) * 3600);
+				targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
 				uiOverlay = GameObject.Find ("GameBike").GetComponent<UIOverlay> ();
 			}
 		}
@@ -49,15 +51,33 @@ public class GameTimer : MonoBehaviour {
 					+ uiOverlay.currentTime.TotalMinutes
 					+ uiOverlay.currentTime.TotalSeconds
 					+ uiOverlay.currentTime.TotalMilliseconds;
-				actualPace = (actualPace / 1000);
 
+				Debug.Log (targetPace);
+				Debug.Log (actualPace);
+
+				actualPace = (actualPace / 1000);
 				actualPace = targetPace - actualPace;
+
+				Debug.Log (actualPace);
 				if (actualPace >= 0) {
-					positivePaceDisplay.text = "+" + actualPace.ToString("F2");
+					pace = TimeSpan.FromSeconds (actualPace);
+					positivePaceDisplay.text = String.Format ("+{3:#0}:{2:00}:{1:00}.{0:00}",
+						Mathf.Floor ((float)pace.Milliseconds / 10),
+						Mathf.Floor ((float)pace.Seconds),
+						Mathf.Floor ((float)pace.Minutes),
+						Mathf.Floor ((float)pace.TotalHours));
+
 					positivePaceDisplay.GetComponent<Renderer> ().enabled = true;
 					StartCoroutine (HideRenderer (positivePaceDisplay));
+
 				} else if (actualPace < 0){
-					negativePaceDisplay.text = "" + actualPace.ToString("F2");
+					pace = TimeSpan.FromSeconds (Math.Abs (actualPace));
+					negativePaceDisplay.text = positivePaceDisplay.text = String.Format ("-{3:#0}:{2:00}:{1:00}.{0:00}",
+							Mathf.Floor ((float)pace.Milliseconds / 10),
+							Mathf.Floor ((float)pace.Seconds),
+							Mathf.Floor ((float)pace.Minutes),
+							Mathf.Floor ((float)pace.TotalHours));
+
 					negativePaceDisplay.GetComponent<Renderer> ().enabled = true;
 					StartCoroutine (HideRenderer (negativePaceDisplay));
 				}

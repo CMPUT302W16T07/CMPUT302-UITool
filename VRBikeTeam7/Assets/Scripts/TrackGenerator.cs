@@ -168,7 +168,7 @@ public class TrackGenerator : MonoBehaviour {
 			current_z_position = (current_z_position - (previous_z_translation / 2)) + (z_translation / 2);
 		}
 
-		if (index % 100 == 0 && trackLength > 100 && ExerciseSettings.durationIsDistance == false) {
+		if (index % 250 == 0 && trackLength > 250 && ExerciseSettings.durationIsDistance == false) {
 			Instantiate (checkPoint, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
 		} else {
 			Instantiate (roadSection, new Vector3 (0, current_y_position, current_z_position), Quaternion.Euler (360 - angle, 0, 0));
