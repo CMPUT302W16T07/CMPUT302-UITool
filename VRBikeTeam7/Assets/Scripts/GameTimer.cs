@@ -109,11 +109,7 @@ public class GameTimer : MonoBehaviour {
 				}
 
 				sessionSuccessText.GetComponent<Renderer> ().enabled = true;
-
-				if (Input.GetKey (KeyCode.Space)) {
-					
-					SceneManager.LoadScene ("UITool");
-				}
+				StartCoroutine(RestartTrack(sessionSuccessText));
 
 
 			}
