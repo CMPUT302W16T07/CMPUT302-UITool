@@ -2,10 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameTimer.cs">
     <Files>
-      <File FileName="Assets\VRBike\Bike\UIOverlay.cs" Line="62" Column="51" />
-      <File FileName="Assets\VRBike\Bike\BikeController.cs" Line="268" Column="1" />
-      <File FileName="Assets\Scripts\GameTimer.cs" Line="17" Column="36" NotebookId="1" />
-      <File FileName="Assets\Scripts\TrackGenerator.cs" Line="177" Column="19" NotebookId="1" />
+      <File FileName="Assets\Scripts\GameTimer.cs" Line="109" Column="6" />
+      <File FileName="Assets\Scripts\Movement.cs" Line="17" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

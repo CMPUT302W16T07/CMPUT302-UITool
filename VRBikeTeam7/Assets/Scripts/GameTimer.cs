@@ -28,7 +28,7 @@ public class GameTimer : MonoBehaviour {
 			}
 
 			//Disable script if track isn't long enough.
-			if (trackLength <= checkPointDistance) {
+			if (trackLength < checkPointDistance) {
 				GetComponent<GameTimer> ().enabled = false;
 			}else{
 				targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
@@ -51,13 +51,9 @@ public class GameTimer : MonoBehaviour {
 					+ uiOverlay.currentTime.TotalSeconds
 					+ uiOverlay.currentTime.TotalMilliseconds;
 
-				Debug.Log (targetPace);
-				Debug.Log (actualPace);
-
 				actualPace = (actualPace / 1000);
 				actualPace = targetPace - actualPace;
 
-				Debug.Log (actualPace);
 				if (actualPace >= 0) {
 					pace = TimeSpan.FromSeconds (actualPace);
 					positivePaceDisplay.text = String.Format ("+{3:#0}:{2:00}:{1:00}.{0:00}",
@@ -81,25 +77,58 @@ public class GameTimer : MonoBehaviour {
 					StartCoroutine (HideRenderer (negativePaceDisplay));
 				}
 
-			
-
-
 			} else if (collider.tag == "Finish") {
+				actualPace = uiOverlay.currentTime.TotalHours 
+					+ uiOverlay.currentTime.TotalMinutes
+					+ uiOverlay.currentTime.TotalSeconds
+					+ uiOverlay.currentTime.TotalMilliseconds;
+				
+
+				actualPace = (actualPace / 1000);
+				actualPace = (ExerciseSettings.time * 60) - actualPace;
+
+				if (actualPace >= 0) {
+					pace = TimeSpan.FromSeconds (actualPace);
+					positivePaceDisplay.text = String.Format ("+{3:#0}:{2:00}:{1:00}.{0:00}",
+						Mathf.Floor ((float)pace.Milliseconds / 10),
+						Mathf.Floor ((float)pace.Seconds),
+						Mathf.Floor ((float)pace.Minutes),
+						Mathf.Floor ((float)pace.TotalHours));
+
+					positivePaceDisplay.GetComponent<Renderer> ().enabled = true;
+
+				} else if (actualPace < 0){
+					pace = TimeSpan.FromSeconds (Math.Abs (actualPace));
+					negativePaceDisplay.text = positivePaceDisplay.text = String.Format ("-{3:#0}:{2:00}:{1:00}.{0:00}",
+						Mathf.Floor ((float)pace.Milliseconds / 10),
+						Mathf.Floor ((float)pace.Seconds),
+						Mathf.Floor ((float)pace.Minutes),
+						Mathf.Floor ((float)pace.TotalHours));
+
+					negativePaceDisplay.GetComponent<Renderer> ().enabled = true;
+				}
+
 				sessionSuccessText.GetComponent<Renderer> ().enabled = true;
-				StartCoroutine (RestartTrack (sessionSuccessText));
+
+				if (Input.GetKey (KeyCode.Space)) {
+					
+					SceneManager.LoadScene ("UITool");
+				}
+
+
 			}
 		}
 	}
 
 	//call StartCoroutine(HideRenderer()); to hide text mesh after 3 seconds
 	IEnumerator HideRenderer(TextMesh paceDisplay){
-		yield return new WaitForSeconds (3.0f);
+		yield return new WaitForSeconds (5.0f);
 		paceDisplay.GetComponent<Renderer> ().enabled = false;
 	}
 
 	//call StartCoroutine(HideRenderer()); to hide text mesh after 3 seconds
 	IEnumerator RestartTrack(TextMesh textMesh){
-		yield return new WaitForSeconds (3.0f);
+		yield return new WaitForSeconds (5.0f);
 		textMesh.GetComponent<Renderer> ().enabled = false;
 		SceneManager.LoadScene ("UITool");
 	}

@@ -6,6 +6,7 @@ public class TrackGenerator : MonoBehaviour {
 	public GameObject roadSection;
 	public GameObject finishLine;
 	public GameObject checkPoint;
+	public GameObject endWall;
 
 	static float trackLength;
 	static float unitDistance;
@@ -47,7 +48,7 @@ public class TrackGenerator : MonoBehaviour {
 		}
 		Instantiate (finishLine, new Vector3 (0, current_y_position - (previous_y_translation/2), (current_z_position - (previous_z_translation/2) + 5)), transform.rotation);
 		Instantiate (roadSection, new Vector3 (0, current_y_position - (previous_y_translation/2), (current_z_position - (previous_z_translation/2) + 15)), transform.rotation);	
-		Instantiate (roadSection, new Vector3 (0, current_y_position - (previous_y_translation/2), (current_z_position - (previous_z_translation/2) + 25)), transform.rotation);
+		Instantiate (endWall, new Vector3 (0, current_y_position - (previous_y_translation/2), (current_z_position - (previous_z_translation/2) + 25)), transform.rotation);
 	}
 		
 	void handleIntervalTrack () {
