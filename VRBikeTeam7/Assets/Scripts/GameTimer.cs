@@ -27,13 +27,9 @@ public class GameTimer : MonoBehaviour {
 				trackLength = ((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) - (((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10);
 			}
 
-			//Disable script if track isn't long enough.
-			if (trackLength < checkPointDistance) {
-				GetComponent<GameTimer> ().enabled = false;
-			}else{
-				targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
-				uiOverlay = GameObject.Find ("GameBike").GetComponent<UIOverlay> ();
-			}
+			targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
+			uiOverlay = GameObject.Find ("GameBike").GetComponent<UIOverlay> ();
+
 		}
 	}
 	

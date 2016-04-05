@@ -38,8 +38,8 @@ public class TrackGenerator : MonoBehaviour {
 		}
 
 		// set min/max geometry
-		minAngle = (ExerciseSettings.minResistance - 1)/4;
-		maxAngle = ExerciseSettings.maxResistance/4;
+		minAngle = ExerciseSettings.minResistance;
+		maxAngle = ExerciseSettings.maxResistance;
 
 		if (ExerciseSettings.trainingIsInterval == true) {
 			handleIntervalTrack ();

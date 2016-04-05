@@ -7,8 +7,8 @@ public class ResistanceCanvasScript : MonoBehaviour {
 	public InputField minResistanceInputField;
 	public InputField maxResistanceInputField;
 
-	public int minResistance;
-	public int maxResistance;
+	public float minResistance;
+	public float maxResistance;
 
 	public bool canvasValid;
 
@@ -19,21 +19,21 @@ public class ResistanceCanvasScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (int.TryParse(minResistanceInputField.text, out minResistance)) {
-			if (int.TryParse(maxResistanceInputField.text, out maxResistance)) {
+		if (float.TryParse(minResistanceInputField.text, out minResistance)) {
+			if (float.TryParse(maxResistanceInputField.text, out maxResistance)) {
 
-				if (minResistance < 1) {
-					minResistance = 1;
+				if (minResistance < 0) {
+					minResistance = 0;
 					setResistanceText ();
 				}
 
-				if (maxResistance > 100) {
-					maxResistance = 100;
+				if (maxResistance > 25) {
+					maxResistance = 25;
 					setResistanceText ();
 				} 
 
-				if (maxResistance < 1) {
-					maxResistance = 1;
+				if (maxResistance < 0) {
+					maxResistance = 0;
 					setResistanceText ();
 				}
 
