@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameTimer : MonoBehaviour {
 
 	public TextMesh positivePaceDisplay;
 	public TextMesh negativePaceDisplay;
-	public TextMesh sessionSuccessText;
+
 
 	static float trackLength;
 	static double targetPaceIncrement;
@@ -15,6 +15,7 @@ public class GameTimer : MonoBehaviour {
 	static double actualPace;
 	public static UIOverlay uiOverlay;
 	static int checkPointDistance = 250;
+	public GameObject sessionSuccessText;
 
 	private TimeSpan pace;
 
@@ -27,9 +28,24 @@ public class GameTimer : MonoBehaviour {
 				trackLength = ((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) - (((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10);
 			}
 
+			sessionSuccessText = GameObject.FindGameObjectWithTag ("EndMessage");
 			targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
 			uiOverlay = GameObject.Find ("GameBike").GetComponent<UIOverlay> ();
 
+		}
+	}
+
+	void Update(){
+		actualPace = uiOverlay.currentTime.TotalHours 
+			+ uiOverlay.currentTime.TotalMinutes
+			+ uiOverlay.currentTime.TotalSeconds
+			+ uiOverlay.currentTime.TotalMilliseconds;
+		
+		pace = TimeSpan.FromSeconds (actualPace);
+
+		if(actualPace >= (ExerciseSettings.time * 60 * 1000)){
+			sessionSuccessText.GetComponent<Renderer> ().enabled = true;
+			StartCoroutine(RestartTrack(sessionSuccessText));
 		}
 	}
 	
@@ -42,16 +58,11 @@ public class GameTimer : MonoBehaviour {
 			//Enables mesh renderer of 3D text if checkpoint is hit. Displays current pace (how many seconds ahead or behind of target).
 			if (collider.tag == "CheckPoint") {
 				targetPace += targetPaceIncrement;
-				actualPace = uiOverlay.currentTime.TotalHours 
-					+ uiOverlay.currentTime.TotalMinutes
-					+ uiOverlay.currentTime.TotalSeconds
-					+ uiOverlay.currentTime.TotalMilliseconds;
 
 				actualPace = (actualPace / 1000);
 				actualPace = targetPace - actualPace;
 
 				if (actualPace >= 0) {
-					pace = TimeSpan.FromSeconds (actualPace);
 					positivePaceDisplay.text = String.Format ("+{3:#0}:{2:00}:{1:00}.{0:00}",
 						Mathf.Floor ((float)pace.Milliseconds / 10),
 						Mathf.Floor ((float)pace.Seconds),
@@ -62,7 +73,7 @@ public class GameTimer : MonoBehaviour {
 					StartCoroutine (HideRenderer (positivePaceDisplay));
 
 				} else if (actualPace < 0){
-					pace = TimeSpan.FromSeconds (Math.Abs (actualPace));
+					
 					negativePaceDisplay.text = positivePaceDisplay.text = String.Format ("-{3:#0}:{2:00}:{1:00}.{0:00}",
 							Mathf.Floor ((float)pace.Milliseconds / 10),
 							Mathf.Floor ((float)pace.Seconds),
@@ -74,11 +85,6 @@ public class GameTimer : MonoBehaviour {
 				}
 
 			} else if (collider.tag == "Finish") {
-				actualPace = uiOverlay.currentTime.TotalHours 
-					+ uiOverlay.currentTime.TotalMinutes
-					+ uiOverlay.currentTime.TotalSeconds
-					+ uiOverlay.currentTime.TotalMilliseconds;
-				
 
 				actualPace = (actualPace / 1000);
 				actualPace = (ExerciseSettings.time * 60) - actualPace;
@@ -103,11 +109,6 @@ public class GameTimer : MonoBehaviour {
 
 					negativePaceDisplay.GetComponent<Renderer> ().enabled = true;
 				}
-
-				sessionSuccessText.GetComponent<Renderer> ().enabled = true;
-				StartCoroutine(RestartTrack(sessionSuccessText));
-
-
 			}
 		}
 	}
@@ -118,10 +119,11 @@ public class GameTimer : MonoBehaviour {
 		paceDisplay.GetComponent<Renderer> ().enabled = false;
 	}
 
-	//call StartCoroutine(HideRenderer()); to hide text mesh after 3 seconds
-	IEnumerator RestartTrack(TextMesh textMesh){
+	IEnumerator RestartTrack(GameObject textMesh){
 		yield return new WaitForSeconds (5.0f);
 		textMesh.GetComponent<Renderer> ().enabled = false;
 		SceneManager.LoadScene ("UITool");
 	}
+
+
 }

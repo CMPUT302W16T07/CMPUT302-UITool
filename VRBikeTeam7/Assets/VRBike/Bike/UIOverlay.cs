@@ -1,6 +1,7 @@
 ﻿using System;
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Script that is needed to give functionality to in-game UI. It updates all texts displayed
@@ -15,6 +16,8 @@ public class UIOverlay : MonoBehaviour
 	public GameObject startCollider;
 
 	public GameObject finishCollider;
+
+	public GameObject sessionSuccessText;
 
 	public static void SetBikeController(BikeController bikeController)
 	{
@@ -33,6 +36,8 @@ public class UIOverlay : MonoBehaviour
             Debug.LogWarning("[UIOverlay] StandardUI not found! UIOverlay is DISABLED.");
             return;
         }
+
+		sessionSuccessText = GameObject.FindGameObjectWithTag ("EndMessage");
     }
 
 	void Update()
@@ -80,6 +85,18 @@ public class UIOverlay : MonoBehaviour
 			// No Heart Rate in this version
 			this.stdUI.HRText.text = "--";
 		}
+
+		if (finishCollider == null) {
+			sessionSuccessText.GetComponent<Renderer> ().enabled = true;
+			StartCoroutine(RestartTrack(sessionSuccessText));
+		}
+	}
+
+	//call StartCoroutine(HideRenderer()); to hide text mesh after 3 seconds
+	IEnumerator RestartTrack(GameObject textMesh){
+		yield return new WaitForSeconds (5.0f);
+		textMesh.GetComponent<Renderer> ().enabled = false;
+		SceneManager.LoadScene ("UITool");
 	}
 	
 }
