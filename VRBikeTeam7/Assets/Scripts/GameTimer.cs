@@ -15,9 +15,11 @@ public class GameTimer : MonoBehaviour {
 	static double actualPace;
 	public static UIOverlay uiOverlay;
 	static int checkPointDistance = 250;
-	public GameObject sessionSuccessText;
-
+	public TextMesh sessionSuccessText;
 	private TimeSpan pace;
+
+	private string finishMessage = "Track complete!\nReturning to main menu\nin 5 seconds.";
+	private string timeUpMessage = "Time is up!\nReturning to main menu\nin 5 seconds.";
 
 	void Start () {
 
@@ -27,8 +29,7 @@ public class GameTimer : MonoBehaviour {
 			} else {
 				trackLength = ((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) - (((ExerciseSettings.time / 60) * ExerciseSettings.targetSpeed * 1000) % 10);
 			}
-
-			sessionSuccessText = GameObject.FindGameObjectWithTag ("EndMessage");
+				
 			targetPaceIncrement = ((checkPointDistance/(ExerciseSettings.targetSpeed * 1000)) * 3600);
 			uiOverlay = GameObject.Find ("GameBike").GetComponent<UIOverlay> ();
 
@@ -41,10 +42,11 @@ public class GameTimer : MonoBehaviour {
 			+ uiOverlay.currentTime.TotalSeconds
 			+ uiOverlay.currentTime.TotalMilliseconds;
 		
-		pace = TimeSpan.FromSeconds (actualPace);
+		actualPace = (actualPace / 1000);
 
-		if(actualPace >= (ExerciseSettings.time * 60 * 1000)){
+		if(actualPace >= (ExerciseSettings.time * 60)){
 			sessionSuccessText.GetComponent<Renderer> ().enabled = true;
+			sessionSuccessText.text = timeUpMessage;
 			StartCoroutine(RestartTrack(sessionSuccessText));
 		}
 	}
@@ -58,11 +60,10 @@ public class GameTimer : MonoBehaviour {
 			//Enables mesh renderer of 3D text if checkpoint is hit. Displays current pace (how many seconds ahead or behind of target).
 			if (collider.tag == "CheckPoint") {
 				targetPace += targetPaceIncrement;
-
-				actualPace = (actualPace / 1000);
 				actualPace = targetPace - actualPace;
 
 				if (actualPace >= 0) {
+					pace = TimeSpan.FromSeconds (actualPace);
 					positivePaceDisplay.text = String.Format ("+{3:#0}:{2:00}:{1:00}.{0:00}",
 						Mathf.Floor ((float)pace.Milliseconds / 10),
 						Mathf.Floor ((float)pace.Seconds),
@@ -72,21 +73,20 @@ public class GameTimer : MonoBehaviour {
 					positivePaceDisplay.GetComponent<Renderer> ().enabled = true;
 					StartCoroutine (HideRenderer (positivePaceDisplay));
 
-				} else if (actualPace < 0){
-					
+				} else if (actualPace < 0) {
+					pace = TimeSpan.FromSeconds (Math.Abs (actualPace));
 					negativePaceDisplay.text = positivePaceDisplay.text = String.Format ("-{3:#0}:{2:00}:{1:00}.{0:00}",
-							Mathf.Floor ((float)pace.Milliseconds / 10),
-							Mathf.Floor ((float)pace.Seconds),
-							Mathf.Floor ((float)pace.Minutes),
-							Mathf.Floor ((float)pace.TotalHours));
+						Mathf.Floor ((float)pace.Milliseconds / 10),
+						Mathf.Floor ((float)pace.Seconds),
+						Mathf.Floor ((float)pace.Minutes),
+						Mathf.Floor ((float)pace.TotalHours));
 
 					negativePaceDisplay.GetComponent<Renderer> ().enabled = true;
 					StartCoroutine (HideRenderer (negativePaceDisplay));
 				}
 
-			} else if (collider.tag == "Finish") {
-
-				actualPace = (actualPace / 1000);
+			} else if (collider.tag == "Finish" && ExerciseSettings.durationIsDistance == false) {
+				
 				actualPace = (ExerciseSettings.time * 60) - actualPace;
 
 				if (actualPace >= 0) {
@@ -98,8 +98,10 @@ public class GameTimer : MonoBehaviour {
 						Mathf.Floor ((float)pace.TotalHours));
 
 					positivePaceDisplay.GetComponent<Renderer> ().enabled = true;
+					sessionSuccessText.text = finishMessage;
+					StartCoroutine (RestartTrack (sessionSuccessText));
 
-				} else if (actualPace < 0){
+				} else if (actualPace < 0) {
 					pace = TimeSpan.FromSeconds (Math.Abs (actualPace));
 					negativePaceDisplay.text = positivePaceDisplay.text = String.Format ("-{3:#0}:{2:00}:{1:00}.{0:00}",
 						Mathf.Floor ((float)pace.Milliseconds / 10),
@@ -108,7 +110,12 @@ public class GameTimer : MonoBehaviour {
 						Mathf.Floor ((float)pace.TotalHours));
 
 					negativePaceDisplay.GetComponent<Renderer> ().enabled = true;
+					sessionSuccessText.text = finishMessage;
+					StartCoroutine (RestartTrack (sessionSuccessText));
 				}
+			} else if (collider.tag == "Finish" && ExerciseSettings.durationIsDistance == true) {
+				sessionSuccessText.GetComponent<Renderer> ().enabled = true;
+				StartCoroutine (RestartTrack (sessionSuccessText));
 			}
 		}
 	}
@@ -119,7 +126,8 @@ public class GameTimer : MonoBehaviour {
 		paceDisplay.GetComponent<Renderer> ().enabled = false;
 	}
 
-	IEnumerator RestartTrack(GameObject textMesh){
+	IEnumerator RestartTrack(TextMesh textMesh){
+		textMesh.GetComponent<Renderer> ().enabled = true;
 		yield return new WaitForSeconds (5.0f);
 		textMesh.GetComponent<Renderer> ().enabled = false;
 		SceneManager.LoadScene ("UITool");
